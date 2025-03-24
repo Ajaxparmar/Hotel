@@ -3,14 +3,14 @@ create database hotel;
 use hotel;
 
 CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT IDENTITY(1,1) PRIMARY KEY,
   name VARCHAR(255),
   email VARCHAR(255) UNIQUE,
   password VARCHAR(255)
 ); 
 
 CREATE TABLE admin_users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT IDENTITY(1,1) PRIMARY KEY,
   name VARCHAR(255),
   email VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255),
@@ -21,7 +21,7 @@ CREATE TABLE admin_users (
 );
 
 CREATE TABLE hotels (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
@@ -60,7 +60,7 @@ VALUES ('1005', 'Maddy\'s Inn', 'cabin', 'Toronto', 'Bay street', '7.5 km', '["h
 select * from hotels;
 
 CREATE TABLE rooms (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     hotel_id INT,
     title VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
@@ -86,7 +86,7 @@ VALUES (3, 1001, 'Economical Room', 75.00, 1, 'A perfect room', NOW(), NOW());
 select * from rooms;
 
 CREATE TABLE roomNumbers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     room_id INT,
     number INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -96,7 +96,7 @@ CREATE TABLE roomNumbers (
 
 
 CREATE TABLE unavailableDates (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     roomNumber_id INT,
     date DATE,
     user_id INT,
