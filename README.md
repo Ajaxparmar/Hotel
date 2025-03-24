@@ -51,15 +51,6 @@ For a detailed overview of the database schema, refer to the **db_structure.txt*
 
 ---
 
-## 🌟 **Contributions:**
-
-Big thanks to the contributors for making this project a reality! 🎉
-
-- [MugundhanY](https://github.com/MugundhanY) 💼
-- [KishoreMuruganantham](https://github.com/KishoreMuruganantham) 🚀
-- [MukundhArul](https://github.com/MukundhArul) 🙌
-
----
 
 We hope you enjoy using and contributing to this project! 😊
 
