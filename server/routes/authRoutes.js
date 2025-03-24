@@ -1,75 +1,81 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const { test,
-    registerUser,
-    loginUser,
-    getProfile,
-    logout,
-    countByCity,
-      countByType,
-      createHotel,
-      deleteHotel,
-      getHotel,
-      getHotelRooms,
-      getHotels,
-      updateHotel,
-      createRoom,
-    deleteRoom,
-    getRoom,
-    updateRoom,
-    updateRoomAvailability, 
-    adminLogin,
-  adminRegister, 
+const { poolPromise } = require('../index'); // Import poolPromise from main file
+const {
+  test,
+  registerUser,
+  loginUser,
+  getProfile,
+  logout,
+  countByCity,
+  countByType,
+  createHotel,
+  deleteHotel,
+  getHotel,
+  getHotelRooms,
+  getHotels,
+  updateHotel,
+  createRoom,
+  deleteRoom,
+  getRoom,
+  updateRoom,
+  updateRoomAvailability,
+  adminLogin,
+  adminRegister,
   reserved,
-delReserved,
-getRoomByHotel} = require('../controllers/authController')
-    const { verifyAdmin } = require('../utils/verifyToken');
+  delReserved,
+  getRoomByHotel,
+} = require('../controllers/authController');
+const { verifyAdmin } = require('../utils/verifyToken');
 
-//middleware
+// Middleware
 router.use(
-    cors({
-        credentials: true,
-        origin: 'http://localhost:5173'
-    })
-)
+  cors({
+    credentials: true,
+    origin: 'http://localhost:5173',
+  })
+);
 
-router.get('/', test)
-router.post('/register', registerUser)
-router.post('/login', loginUser)
-router.get('/profile', getProfile)
-router.get('/logout', logout)
-router.post('/hotels/new', createHotel);
-  
-  // UPDATE
-  router.put('/hotels/:id', verifyAdmin, updateHotel);
-  
-  // DELETE
-  router.delete('/hotels/:id', deleteHotel);
-  
-  // GET
-  router.get('/hotels/find/:id', getHotel);
-  
-  // GET ALL
-  router.get('/hotels/', getHotels);
-  router.get('/hotels/countByCity', countByCity);
-  router.get('/hotels/countByType', countByType);
-  router.get('/hotels/room/:id', getHotelRooms);
-  router.post("/room/:hotelid", createRoom);
+// Routes with poolPromise passed to controller functions
+router.get('/', (req, res) => test(req, res, poolPromise));
+router.post('/register', (req, res) => registerUser(req, res, poolPromise));
+router.post('/login', (req, res) => loginUser(req, res, poolPromise));
+router.get('/profile', (req, res) => getProfile(req, res, poolPromise));
+router.get('/logout', (req, res) => logout(req, res, poolPromise));
+router.post('/hotels/new', (req, res) => createHotel(req, res, poolPromise));
 
-//UPDATE
-router.put("/room/availability/:id/:roomNumber", updateRoomAvailability);
-router.put("/room/:id", verifyAdmin, updateRoom);
-//DELETE
-router.delete("/room/:id", deleteRoom);
-//GET
+// UPDATE
+router.put('/hotels/:id', verifyAdmin, (req, res) => updateHotel(req, res, poolPromise));
 
-router.get("/room/:id", getRoom);
-//GET ALL
+// DELETE
+router.delete('/hotels/:id', (req, res) => deleteHotel(req, res, poolPromise));
 
-router.post("/admin/login", adminLogin);
-router.post("/admin/register", adminRegister);
-router.get('/reserved/:id', reserved);
-router.post('/delreserve', delReserved);
-router.get('/room/:id/:hotelid', getRoomByHotel)
-module.exports = router
+// GET
+router.get('/hotels/find/:id', (req, res) => getHotel(req, res, poolPromise));
+
+// GET ALL
+router.get('/hotels/', (req, res) => getHotels(req, res, poolPromise));
+router.get('/hotels/countByCity', (req, res) => countByCity(req, res, poolPromise));
+router.get('/hotels/countByType', (req, res) => countByType(req, res, poolPromise));
+router.get('/hotels/room/:id', (req, res) => getHotelRooms(req, res, poolPromise));
+router.post('/room/:hotelid', (req, res) => createRoom(req, res, poolPromise));
+
+// UPDATE
+router.put('/room/availability/:id/:roomNumber', (req, res) => updateRoomAvailability(req, res, poolPromise));
+router.put('/room/:id', verifyAdmin, (req, res) => updateRoom(req, res, poolPromise));
+
+// DELETE
+router.delete('/room/:id', (req, res) => deleteRoom(req, res, poolPromise));
+
+// GET
+router.get('/room/:id', (req, res) => getRoom(req, res, poolPromise));
+
+// Admin routes
+router.post('/admin/login', (req, res) => adminLogin(req, res, poolPromise));
+router.post('/admin/register', (req, res) => adminRegister(req, res, poolPromise));
+router.get('/reserved/:id', (req, res) => reserved(req, res, poolPromise));
+router.post('/delreserve', (req, res) => delReserved(req, res, poolPromise));
+router.get('/room/:id/:hotelid', (req, res) => getRoomByHotel(req, res, poolPromise));
+
+module.exports = router;
